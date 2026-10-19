@@ -1,0 +1,44 @@
+# Morgen-Triage
+# Zeitpunkt:  täglich 06:00 UTC (und manuell per workflow_dispatch)
+# Inputs:     offene PRs über die GitHub-API (GITHUB_TOKEN, nur Lesen),
+#             knowledge/critical_paths.md
+# Outputs:    reviews/queue-DATUM.md und runs/log.jsonl (werden committet)
+# Abbruch:    Exit 2 = critical_paths.md leer, Exit 3 = API-Fehler oder unvollständiger Abruf.
+#             Der Lauf schlägt dann fehl, und GitHub benachrichtigt den Menschen.
+# Mensch greift ein bei: fehlgeschlagenem Lauf, leerer critical_paths.md,
+#             oder einer Regel, die im Wochen-Review auffällt.
+name: pr-triage-morning
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: PR-Triage ausführen
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/pr_triage_morning.py
+
+      - name: Ergebnis committen
+        if: always()
+        run: |
+          git config user.name "pr-triage-bot"
+          git config user.email "pr-triage-bot@users.noreply.github.com"
+          git add reviews runs
+          git diff --cached --quiet || git commit -m "Morgen-Triage $(date -u +%F)"
+          git push

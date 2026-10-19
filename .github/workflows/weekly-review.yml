@@ -1,0 +1,37 @@
+# Wochen-Review
+# Zeitpunkt:  jeden Freitag 15:00 UTC (und manuell per workflow_dispatch)
+# Inputs:     runs/log.jsonl der letzten 7 Tage
+# Outputs:    reviews/weekly-DATUM.md (nur Vorschläge, keine Änderungen an knowledge/ oder skills/)
+# Abbruch:    nur bei Python-Fehler. Der Mensch liest den Bericht und entscheidet über Änderungen.
+name: weekly-review
+
+on:
+  schedule:
+    - cron: "0 15 * * 5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Wochen-Review ausführen
+        run: python3 scripts/weekly_review.py
+
+      - name: Bericht committen
+        if: always()
+        run: |
+          git config user.name "pr-triage-bot"
+          git config user.email "pr-triage-bot@users.noreply.github.com"
+          git add reviews
+          git diff --cached --quiet || git commit -m "Wochen-Review $(date -u +%F)"
+          git push

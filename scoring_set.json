@@ -1,0 +1,95 @@
+{
+  "_hinweis": "SYNTHETISCHE Testfälle. Keine echten PRs, keine echten Projektdaten. Sie prüfen nur, ob die Regeln in knowledge/risk_rules.md korrekt angewendet werden. Echte Fälle werden ergänzt, sobald das Repository vorliegt.",
+  "cases": [
+    {
+      "id": "S1-kritischer-pfad",
+      "synthetic": true,
+      "beschreibung": "Änderung an einem kritischen Pfad ergibt HOCH (Regel 2).",
+      "critical_paths": ["fixture/auth/session.py"],
+      "pr": {
+        "number": 101,
+        "title": "Fixture: Session-Timeout anpassen",
+        "diff_available": true,
+        "files_changed": ["fixture/auth/session.py"],
+        "tests_removed": false,
+        "tests_removal_reason_in_diff": false
+      },
+      "expected": {"priority": "HOCH", "not_evaluable": false}
+    },
+    {
+      "id": "S2-nur-dokumentation",
+      "synthetic": true,
+      "beschreibung": "Nur Dokumentation ergibt NIEDRIG (Regel 4).",
+      "critical_paths": [],
+      "pr": {
+        "number": 102,
+        "title": "Fixture: README-Tippfehler",
+        "diff_available": true,
+        "files_changed": ["docs/README.md"],
+        "tests_removed": false,
+        "tests_removal_reason_in_diff": false
+      },
+      "expected": {"priority": "NIEDRIG", "not_evaluable": false}
+    },
+    {
+      "id": "S3-diff-fehlt",
+      "synthetic": true,
+      "beschreibung": "Fehlender Diff ergibt keine Priorität, sondern Nicht bewertbar (Regel 1). Darf nicht geraten werden.",
+      "critical_paths": [],
+      "pr": {
+        "number": 103,
+        "title": "Fixture: Diff nicht verfügbar",
+        "diff_available": false,
+        "files_changed": [],
+        "tests_removed": false,
+        "tests_removal_reason_in_diff": false
+      },
+      "expected": {"priority": null, "not_evaluable": true}
+    },
+    {
+      "id": "S4-tests-entfernt-ohne-grund",
+      "synthetic": true,
+      "beschreibung": "Entfernte Tests ohne Begründung im Diff ergeben HOCH (Regel 3).",
+      "critical_paths": [],
+      "pr": {
+        "number": 104,
+        "title": "Fixture: Tests entfernt",
+        "diff_available": true,
+        "files_changed": ["src/billing.py", "tests/test_billing.py"],
+        "tests_removed": true,
+        "tests_removal_reason_in_diff": false
+      },
+      "expected": {"priority": "HOCH", "not_evaluable": false}
+    },
+    {
+      "id": "S5-normale-codeaenderung",
+      "synthetic": true,
+      "beschreibung": "Normale Codeänderung ohne kritischen Pfad ergibt MITTEL (Regel 5).",
+      "critical_paths": [],
+      "pr": {
+        "number": 105,
+        "title": "Fixture: Hilfsfunktion für Strings",
+        "diff_available": true,
+        "files_changed": ["src/utils/strings.py"],
+        "tests_removed": false,
+        "tests_removal_reason_in_diff": false
+      },
+      "expected": {"priority": "MITTEL", "not_evaluable": false}
+    },
+    {
+      "id": "S6-diff-fehlt-trotz-dateiliste",
+      "synthetic": true,
+      "beschreibung": "Nicht lesbarer Diff ist nicht bewertbar, auch wenn Dateien gelistet sind und ein kritischer Pfad betroffen wäre (Regel 1 vor allen anderen).",
+      "critical_paths": ["fixture/auth/session.py"],
+      "pr": {
+        "number": 106,
+        "title": "Fixture: Diff unlesbar, Dateiliste vorhanden",
+        "diff_available": false,
+        "files_changed": ["fixture/auth/session.py"],
+        "tests_removed": false,
+        "tests_removal_reason_in_diff": false
+      },
+      "expected": {"priority": null, "not_evaluable": true}
+    }
+  ]
+}
