@@ -28,6 +28,10 @@ Stand: 19.10.2026. Quelle: `AGENTS.md` aus `km-hr-agent`. Dieses Projekt enthäl
 
 Keine Übernahme aus dem alten Projekt. Die Einträge in `critical_paths.md` stammen aus den Dateien dieses Projekts, nicht aus AGENTS.md. Die alten Pfade (`webui/db.py`, `webui/logic.py`, `scripts/agent-runner.py`) existieren hier nicht.
 
+Kriterium: Ein Fehler in der Datei bricht das System, die Sicherheit oder die Kernfunktion zusammen.
+
+Ergebnis: fünf Pfade (`pr_triage.py`, `scripts/pr_triage_morning.py`, `.github/workflows/pr-triage-morning.yml`, `scripts/verify_all.py` auf Wunsch des Teams, `knowledge/risk_rules.md`). Nicht aufgenommen: `scripts/weekly_review.py`, `scoring_set.json`, `test_evaluation.py`, `.github/workflows/verify.yml`, `.gitignore`, Skills und Dokumentation.
+
 ## Skills
 
 Keine neue `SKILL.md` angelegt.

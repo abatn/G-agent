@@ -7,6 +7,7 @@ Status: **aus dem Repo abgeleitet, vom Team zu bestätigen.** Die Pfade beschrei
 pr_triage.py – Enthält die Regelkette, die jede PR-Priorität bestimmt. Ein Fehler hier verfälscht alle Warteschlangen.
 scripts/pr_triage_morning.py – Ruft die GitHub-API ab, bewertet PRs und schreibt Queue und Log. Fehler hier betreffen jeden Morgenlauf.
 .github/workflows/pr-triage-morning.yml – Legt Zeitplan, Berechtigungen und Schreibrechte des Morgenlaufs fest. Ein Fehler kann Daten lesen oder Commits in den Branch schreiben lassen.
+scripts/verify_all.py – Das Gate, das vor jedem Commit alle Prüfungen ausführt. Ein Fehler hier lässt fehlerhafte Wissensdateien und Code unbemerkt in das Projekt.
 knowledge/risk_rules.md – Definiert die Regeln, nach denen die Priorität vergeben wird. Eine Änderung verändert das Ergebnis aller PRs.
 
 <!-- Beispielzeile (nicht gültig, nur Format):
