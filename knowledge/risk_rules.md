@@ -6,8 +6,7 @@ Die Regeln werden in dieser Reihenfolge angewendet. Die erste zutreffende Regel 
 2. **HOCH:** Mindestens eine geänderte Datei liegt in einem Pfad aus `critical_paths.md`.
 3. **HOCH:** Tests wurden entfernt oder deaktiviert, ohne dass der Grund im Diff steht.
 4. **NIEDRIG:** Alle geänderten Dateien sind reine Dokumentation (z. B. `.md`) oder reine Formatierung.
-5. **MITTEL:** Alle übrigen Fälle.
-6. **MITTEL:** Unklare Fälle. Der Grund nennt den fehlenden Datenpunkt.
+5. **MITTEL:** Alle übrigen Fälle, auch unklare. Bei unklaren Fällen nennt der Grund den fehlenden Datenpunkt.
 
 ## Begründung
 
